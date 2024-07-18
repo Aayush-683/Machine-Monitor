@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar button {
+    background: none;
+    border: 1px solid #555;
+    color: #fff;
+    padding: 10px;
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+.sidebar button:hover {
+    background-color: #555;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.content {
+    display: block;
+}
+
+.content.active {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+#charts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+}
+
+#charts canvas {
+    height: 300px !important;
+    width: 600px !important;
+    margin: 10px;
+}

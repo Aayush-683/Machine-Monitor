@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Virtual Machine Monitor</title>
+		<link rel="stylesheet" href="./style.css" />
+	</head>
+	<body>
+		<div id="container">
+			<header>
+				<h1>Virtual Machine Monitor</h1>
+			</header>
+			<nav>
+				<button id="homeButton">Home</button>
+				<button id="checkProcesses">Check Processes</button>
+				<button id="watchFiles">Watch Files</button>
+				<button id="checkNetwork">Check Network</button>
+			</nav>
+			<main>
+				<div id="homeContent" class="content">
+					<div id="statsContent">
+						<h2>System Stats</h2>
+						<canvas id="tempChart"></canvas>
+						<canvas id="ramChart"></canvas>
+						<canvas id="storageChart"></canvas>
+						<canvas id="sessionChart"></canvas>
+						<canvas id="batteryChart"></canvas>
+						<canvas id="graphicsChart"></canvas>
+						<canvas id="cpuChart"></canvas>
+						<canvas id="netSpeedChart"></canvas>
+						<canvas id="cpuSpeedChart"></canvas>
+						<canvas id="diskIOChart"></canvas>
+						<canvas id="batteryPowerChart"></canvas>
+					</div>
+				</div>
+				<div id="processContent" class="content hidden">
+					<h2>Processes</h2>
+					<pre id="processOutput"></pre>
+				</div>
+				<div id="fileContent" class="content hidden">
+					<h2>File Changes</h2>
+					<div>
+                        <input type="text" id="fileInput" placeholder="Enter file path" />
+						<button id="watchFileButton">Watch File</button>
+                        <button id="stopwatchfileButton" disabled="true">Stop Watching File</button>
+					</div>
+					<pre id="fileOutput"></pre>
+				</div>
+				<div id="networkContent" class="content hidden">
+					<h2>Network Activity</h2>
+					<pre id="networkOutput"></pre>
+				</div>
+			</main>
+		</div>
+		<script src="script.js"></script>
+	</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "virtual-machine-monitor",
+  "version": "1.0.0",
+  "description": "A virtual machine monitor dashboard for checking processes, watching file changes, and checking network activity with real-time device stats.",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Your Name",
+  "license": "ISC",
+  "dependencies": {
+    "chart.js": "^3.9.1",
+    "electron": "^24.8.8",
+    "ps-list": "^7.1.0",
+    "systeminformation": "^5.11.15"
+  },
+  "devDependencies": {
+    "electron": "^24.8.8"
+  }
+}
