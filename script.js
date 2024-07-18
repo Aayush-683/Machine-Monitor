@@ -1,16 +1,42 @@
-const psList = require('ps-list');
-// const chokidar = require('chokidar');
-const { exec } = require('child_process');
-const si = require('systeminformation');
-const Chart = require('chart.js');
-const outputProcess = document.getElementById('processOutput');
+const sysInfo = require('systeminformation');
+const outputProcessTable = document.getElementById('processOutput');
 const outputFile = document.getElementById('fileOutput');
-const outputNetwork = document.getElementById('networkOutput');
+const outputNetworkTable = document.getElementById('networkOutput');
 const fs = require('fs');
 
 const checkProcesses = async () => {
-    const processes = await psList();
-    outputProcess.textContent = 'Running Processes:\n' + processes.map(proc => `PID: ${proc.pid}, Name: ${proc.name}`).join('\n');
+    const processes = await sysInfo.processes();
+    const processList = processes.list.map(process => {
+        return {
+            pid: process.pid,
+            name: process.name,
+            mem: process.mem,
+            started: process.started,
+            user: process.user,
+            command: process.command,
+            path: process.path,
+            state: process.state
+        }
+    });
+    // Add headers to the table
+    const headers = Object.keys(processList[0]);
+    const headerRow = document.createElement('tr');
+    headers.forEach(header => {
+        const cell = document.createElement('th');
+        cell.textContent = header.toUpperCase();
+        headerRow.appendChild(cell);
+    });
+    outputProcessTable.appendChild(headerRow);
+    // Add the process list to the table as rows
+    processList.forEach(process => {
+        const row = document.createElement('tr');
+        Object.keys(process).forEach(key => {
+            const cell = document.createElement('td');
+            cell.textContent = process[key];
+            row.appendChild(cell);
+        });
+        outputProcessTable.appendChild(row);
+    });
 };
 
 let watcher;
@@ -34,17 +60,38 @@ const watchFileChanges = (path) => {
 };
 
 const checkNetworkActivity = () => {
-    exec('netstat -an', (error, stdout, stderr) => {
-        if (error) {
-            outputNetwork.textContent += `\nError fetching network activity: ${error.message}`;
-            return;
-        }
-        if (stderr) {
-            outputNetwork.textContent += `\nError fetching network activity: ${stderr}`;
-            return;
-        }
-        const connections = stdout.split('\n').map(line => line.trim()).filter(line => line);
-        outputNetwork.textContent += '\n' + connections.join('\n');
+    const networkStats = sysInfo.networkConnections();
+    networkStats.then((connections) => {
+        const connectionList = connections.map(conn => {
+            return {
+                pid: conn.pid,
+                protocol: conn.protocol,
+                local: conn.localAddress + ':' + conn.localPort,
+                remote: conn.peerAddress + ':' + conn.peerPort,
+                state: conn.state
+            }
+        });
+        // Add headers to the table
+        const headers = Object.keys(connectionList[0]);
+        const headerRow = document.createElement('tr');
+        headers.forEach(header => {
+            const cell = document.createElement('th');
+            cell.textContent = header.toUpperCase();
+            headerRow.appendChild(cell);
+        });
+        outputNetworkTable.appendChild(headerRow);
+        // Add the network connections to the table as rows
+        connectionList.forEach(conn => {
+            const row = document.createElement('tr');
+            Object.keys(conn).forEach(key => {
+                const cell = document.createElement('td');
+                cell.textContent = conn[key];
+                row.appendChild(cell);
+            });
+            outputNetworkTable.appendChild(row);
+        });
+    }).catch((error) => {
+        console.error('Error fetching network connections:', error);
     });
 };
 
@@ -63,6 +110,7 @@ const fileContent = document.getElementById('fileContent');
 const networkContent = document.getElementById('networkContent');
 let watchingFile;
 
+// Add event listeners
 homeButton.addEventListener('click', () => showContent('home'));
 processButton.addEventListener('click', () => showContent('process'));
 fileButton.addEventListener('click', async () => showContent('file'));
@@ -87,6 +135,7 @@ stopwatchfileButton.addEventListener('click', async () => {
     watchfileButton.disabled = false;
 });
 
+// Show content based on the section
 const showContent = (section) => {
     homeContent.classList.add('hidden');
     processContent.classList.add('hidden');
@@ -110,77 +159,3 @@ const showContent = (section) => {
             break;
     }
 };
-
-// Initialize Charts
-// Initialize Charts
-const initializeChart = (ctx, label, borderColor) => new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: [],
-        datasets: [{
-            label,
-            data: [],
-            borderColor,
-            borderWidth: 1
-        }]
-    }
-});
-
-const tempChart = initializeChart(document.getElementById('tempChart').getContext('2d'), 'Temperature', 'rgba(255, 99, 132, 1)');
-const ramChart = initializeChart(document.getElementById('ramChart').getContext('2d'), 'RAM Usage', 'rgba(54, 162, 235, 1)');
-const storageChart = initializeChart(document.getElementById('storageChart').getContext('2d'), 'Storage Usage', 'rgba(75, 192, 192, 1)');
-const sessionChart = initializeChart(document.getElementById('sessionChart').getContext('2d'), 'Active Sessions', 'rgba(153, 102, 255, 1)');
-const batteryChart = initializeChart(document.getElementById('batteryChart').getContext('2d'), 'Battery Level', 'rgba(255, 206, 86, 1)');
-const graphicsChart = initializeChart(document.getElementById('graphicsChart').getContext('2d'), 'Graphics Usage', 'rgba(255, 159, 64, 1)');
-const cpuChart = initializeChart(document.getElementById('cpuChart').getContext('2d'), 'CPU Usage', 'rgba(75, 192, 192, 1)');
-const netSpeedChart = initializeChart(document.getElementById('netSpeedChart').getContext('2d'), 'Network Speed', 'rgba(54, 162, 235, 1)');
-const cpuSpeedChart = initializeChart(document.getElementById('cpuSpeedChart').getContext('2d'), 'CPU Speed', 'rgba(255, 159, 64, 1)');
-const diskIOChart = initializeChart(document.getElementById('diskIOChart').getContext('2d'), 'Disk I/O', 'rgba(153, 102, 255, 1)');
-const batteryPowerChart = initializeChart(document.getElementById('batteryPowerChart').getContext('2d'), 'Battery Power Usage', 'rgba(255, 99, 132, 1)');
-
-const updateChart = (chart, label, data) => {
-    chart.data.labels.push(label);
-    chart.data.datasets[0].data.push(data);
-    if (chart.data.labels.length > 20) chart.data.labels.shift();
-    if (chart.data.datasets[0].data.length > 20) chart.data.datasets[0].data.shift();
-    chart.update();
-};
-
-const updateStats = async () => {
-    try {
-        const [
-            tempData, memData, diskData, sessionData, batteryData, graphicsData, cpuData,
-            netData, cpuCurrentSpeed, diskIOData
-        ] = await Promise.all([
-            si.cpuTemperature(),
-            si.mem(),
-            si.fsSize(),
-            si.users(),
-            si.battery(),
-            si.graphics(),
-            si.cpu(),
-            si.networkStats(),
-            si.cpuCurrentSpeed(),
-            si.disksIO()
-        ]);
-        const currentTime = new Date().toLocaleTimeString();
-
-        // Update charts with fetched data
-        updateChart(tempChart, currentTime, tempData.main !== null ? tempData.main : 0);
-        updateChart(ramChart, currentTime, memData.used / (1024 * 1024));
-        updateChart(storageChart, currentTime, diskData[0].used / (1024 * 1024));
-        updateChart(sessionChart, currentTime, sessionData.length);
-        updateChart(batteryChart, currentTime, batteryData.percent);
-        updateChart(graphicsChart, currentTime, graphicsData.controllers[0].memoryUsed / (1024 * 1024));
-        updateChart(cpuChart, currentTime, cpuData.speed);
-        updateChart(netSpeedChart, currentTime, netData[0].tx_sec + netData[0].rx_sec);
-        updateChart(cpuSpeedChart, currentTime, cpuCurrentSpeed.avg);
-        updateChart(diskIOChart, currentTime, diskIOData.rIO_sec + diskIOData.wIO_sec);
-        updateChart(batteryPowerChart, currentTime, batteryData.current);
-    } catch (error) {
-        console.error('Error fetching stats:', error);
-    }
-};
-
-// Update stats every second
-setInterval(updateStats, 60 * 1000); // 1 minute
