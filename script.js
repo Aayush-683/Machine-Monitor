@@ -2,7 +2,7 @@ const psList = require('ps-list');
 // const chokidar = require('chokidar');
 const { exec } = require('child_process');
 const si = require('systeminformation');
-const Chart = require('chart.js/auto');
+const Chart = require('chart.js');
 const outputProcess = document.getElementById('processOutput');
 const outputFile = document.getElementById('fileOutput');
 const outputNetwork = document.getElementById('networkOutput');
@@ -183,4 +183,4 @@ const updateStats = async () => {
 };
 
 // Update stats every second
-setInterval(updateStats, 1000);
+setInterval(updateStats, 60 * 1000); // 1 minute
