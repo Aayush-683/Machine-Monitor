@@ -57,8 +57,6 @@ const updateStats = async () => {
             graphicsData.controllers = graphicsData.controllers.filter(controller => controller.vendor !== 'VMware SVGA II Adapter' && controller.memoryUsed > 0);
         }
 
-        console.log(graphicsData.controllers);
-
         // Handle temperature
         temps.push({ name: cpuData.manufacturer, temp: cpuTemp });
         if (graphicsData.controllers.length > 0) {

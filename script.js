@@ -1,7 +1,9 @@
 const sysInfo = require('systeminformation');
 const outputProcessTable = document.getElementById('processOutput');
+const procHeading = document.getElementById('procStats');
 const outputFile = document.getElementById('fileOutput');
 const outputNetworkTable = document.getElementById('networkOutput');
+const netHeading = document.getElementById('netStats');
 const fs = require('fs');
 
 const checkProcesses = async () => {
@@ -10,14 +12,15 @@ const checkProcesses = async () => {
         return {
             pid: process.pid,
             name: process.name,
-            mem: process.mem,
-            started: process.started,
-            user: process.user,
-            command: process.command,
-            path: process.path,
-            state: process.state
+            "memory used": `${(process.mem).toFixed(2)}%`,
+            "started at": process.started,
+            user: process.user ? process.user : 'N/A',
+            command: process.command ? process.command : 'N/A',
+            path: process.path ? process.path : 'N/A'
         }
     });
+    // Clear the table before adding new data
+    outputProcessTable.innerHTML = '';
     // Add headers to the table
     const headers = Object.keys(processList[0]);
     const headerRow = document.createElement('tr');
@@ -37,6 +40,7 @@ const checkProcesses = async () => {
         });
         outputProcessTable.appendChild(row);
     });
+    procHeading.textContent = `Active Processes: ${processes.list.length}`;
 };
 
 let watcher;
@@ -71,6 +75,8 @@ const checkNetworkActivity = () => {
                 state: conn.state
             }
         });
+        // Clear the table before adding new data
+        outputNetworkTable.innerHTML = '';
         // Add headers to the table
         const headers = Object.keys(connectionList[0]);
         const headerRow = document.createElement('tr');
@@ -90,6 +96,7 @@ const checkNetworkActivity = () => {
             });
             outputNetworkTable.appendChild(row);
         });
+        netHeading.textContent = `Active Network Connections: ${connections.length}`;
     }).catch((error) => {
         console.error('Error fetching network connections:', error);
     });
@@ -135,6 +142,8 @@ stopwatchfileButton.addEventListener('click', async () => {
     watchfileButton.disabled = false;
 });
 
+let intervals = {};
+
 // Show content based on the section
 const showContent = (section) => {
     homeContent.classList.add('hidden');
@@ -145,10 +154,14 @@ const showContent = (section) => {
     switch (section) {
         case 'home':
             homeContent.classList.remove('hidden');
+            clearInterval(intervals.processes);
+            clearInterval(intervals.network);
             break;
         case 'process':
             processContent.classList.remove('hidden');
             checkProcesses();
+            intervals.processes = setInterval(checkProcesses, 5000);
+            clearInterval(intervals.network);
             break;
         case 'file':
             fileContent.classList.remove('hidden');
@@ -156,6 +169,7 @@ const showContent = (section) => {
         case 'network':
             networkContent.classList.remove('hidden');
             checkNetworkActivity();
+            intervals.network = setInterval(checkNetworkActivity, 5000);
             break;
     }
 };
