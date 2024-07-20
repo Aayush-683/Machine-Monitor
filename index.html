@@ -20,15 +20,39 @@
 			<main>
 				<div id="homeContent" class="content">
 					<div id="statsContent">
-						<h2 id="sysStats">System Stats [Initializing]</h2>
-						<canvas id="tempChart"></canvas>
-						<canvas id="ramChart"></canvas>
-						<canvas id="sessionChart"></canvas>
-						<canvas id="cpuSpeedChart"></canvas>
-						<canvas id="graphicsChart"></canvas>
-						<canvas id="netSpeedChart"></canvas>
-						<canvas id="diskIOChart"></canvas>
-						<canvas id="batteryPowerChart"></canvas>
+						<!-- <h2 id="sysStats">System Stats [Initializing]</h2> -->
+						<div class="chartdiv">
+							<h3>Temprature</h3>
+							<canvas id="tempChart"></canvas>
+						</div>
+						<div class="chartdiv">
+							<h3>RAM Usage</h3>
+							<canvas id="ramChart"></canvas>
+						</div>
+						<div class="chartdiv">
+							<h3>Active Users</h3>
+							<canvas id="sessionChart"></canvas>
+						</div >
+						<div class="chartdiv">
+							<h3>CPU Speed</h3>
+							<canvas id="cpuSpeedChart"></canvas>
+						</div>
+						<div class="chartdiv">
+							<h3>Graphics Usage</h3>
+							<canvas id="graphicsChart"></canvas>
+						</div>
+						<div class="chartdiv">
+							<h3>Network Speed </h3>
+							<canvas id="netSpeedChart"></canvas>
+						</div>
+						<div class="chartdiv">
+							<h3>Disk Usage</h3>
+							<canvas id="diskIOChart"></canvas>
+						</div>
+						<div class="chartdiv">
+							<h3>Battery Power Usage</h3>
+							<canvas id="batteryPowerChart"></canvas>
+						</div>
 					</div>
 				</div>
 				<div id="processContent" class="content hidden">
