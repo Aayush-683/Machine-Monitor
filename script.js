@@ -5,6 +5,7 @@ const outputFile = document.getElementById('fileOutput');
 const outputNetworkTable = document.getElementById('networkOutput');
 const netHeading = document.getElementById('netStats');
 const fs = require('fs');
+const chokidar = require('chokidar');
 const { exec } = require('child_process');
 
 const checkProcesses = async () => {
@@ -70,22 +71,20 @@ const checkProcesses = async () => {
     procHeading.textContent = `Active Processes: ${processes.list.length}`;
 };
 
-let watcher;
+let watcher, watchingFile;
+
 
 const watchFileChanges = (path) => {
-    // Check if path is a directory and exists
     if (!fs.existsSync(path)) {
         outputFile.textContent = 'Invalid path';
         return;
     } else {
-        watcher = fs.watch(path, (eventType, filename) => {
-            if (filename) {
-                outputFile.textContent += `\nEVENT: ${eventType.toUpperCase()} | FILE: ${filename}`;
-                // You can add more logic here, e.g., reading the file, handling the event, etc.
-            } else {
-                console.log('Filename not provided');
-            }
-        });
+        const watcher = chokidar.watch(path, { persistent: true });
+        watcher
+            .on('add', path => outputFile.textContent += `\nFILE ADDED: ${path}`)
+            .on('change', path => outputFile.textContent += `\nFILE CHANGED: ${path}`)
+            .on('unlink', path => outputFile.textContent += `\nFILE DELETED: ${path}`);
+        
         outputFile.textContent = `Watching for file changes in ${path}`;
     }
 };
@@ -181,7 +180,6 @@ const homeContent = document.getElementById('homeContent');
 const processContent = document.getElementById('processContent');
 const fileContent = document.getElementById('fileContent');
 const networkContent = document.getElementById('networkContent');
-let watchingFile;
 
 // Add event listeners
 homeButton.addEventListener('click', () => showContent('home'));
@@ -194,14 +192,15 @@ watchfileButton.addEventListener('click', async () => {
     watchingFile = dirHandle;
     fileInput.disabled = true;
     watchfileButton.disabled = true;
-    watchFileChanges(dirHandle);
     stopwatchfileButton.disabled = false;
+    watchFileChanges(dirHandle);
 });
 stopwatchfileButton.addEventListener('click', async () => {
-    outputFile.textContent = '';
-    watcher.close();
-    outputFile.textContent = `Stopped watching file changes in ${watchingFile}`;
-    watchingFile = '';
+    if (watcher) {
+        watcher.close();
+        outputFile.textContent = `Stopped watching file changes in ${watchingFile}`;
+        watchingFile = '';
+    }
     fileInput.value = '';
     fileInput.disabled = false;
     stopwatchfileButton.disabled = true;
