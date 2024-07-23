@@ -43,21 +43,27 @@ nav > button{
     border: none;
     background-color:rgba(0, 0, 255, 0); 
     color: white;
+    letter-spacing: 0.15em;
     flex: 1;
-  text-align: center;
- 
-    transition: background-color 0.3s ease, border 0.3s ease; /* Smooth transition for hover effect */
+    text-align: center;
+    transition: background-color 0.3s ease, border 0.3s ease; 
 }
 
-nav > button:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* Light grey background on hover */
-    border: 1px solid #ccc; /* Light grey border on hover */
+nav > button:after {    
+    background: none repeat scroll 0 0 transparent;
+    content: "";
+    display: block;
+    height: 2px;
+    left: 50%;
+    position: absolute;
+    background: #fff;
+    transition:  0.3s ease 0s,left 0.3s ease 0s;
+    width: 0;
   }
   
-  /* Optional: Style for active/current button */
-nav > button.active {
-    background-color: rgba(0, 0, 0, 0.2); /* Slightly darker grey for the active button */
-    border: 1px solid #bbb; /* Slightly darker border for the active button */
+nav > button:hover:after { 
+    width: 100%; 
+    left: 0; 
   }
 
 
@@ -109,11 +115,23 @@ nav > button.active {
 }
 
 
+
+
+table ,td ,th{
+   table-layout: fixed;
+   width: 100%;
+   border: #fff solid;
+   color: white;
+   word-wrap:break-word;
+}
+
+
+
 #statsContent{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr;
-    
+    gap: 9rem;
 }
 
 #charts {
@@ -124,7 +142,7 @@ nav > button.active {
     margin: 20px;
 }
 .chartdiv {
-    width: 38rem;
+    width: 35rem;
 }
 
 .chartdiv canvas {

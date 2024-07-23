@@ -35,7 +35,24 @@ const checkProcesses = async () => {
         const row = document.createElement('tr');
         Object.keys(process).forEach(key => {
             const cell = document.createElement('td');
-            cell.textContent = process[key];
+            // Add a link to the path if it exists
+            if (key === 'path' && process[key] !== 'N/A') {
+                const link = document.createElement('a');
+                let path, separator;
+                if (process[key].includes('/')) separator = '/';
+                else separator = '\\';
+                path = process[key].split(separator);
+                path = path.slice(0, path.length - 1); // Remove the file name
+                link.onclick = () => {
+                    // Open the file path in the default file explorer
+                    require('child_process').exec(`start ${path.join(separator)}`);
+                };
+                link.classList.add('proc_link')
+                link.textContent = process[key];
+                cell.appendChild(link);
+            } else {
+                cell.textContent = process[key];
+            }
             row.appendChild(cell);
         });
         outputProcessTable.appendChild(row);
