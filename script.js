@@ -73,20 +73,30 @@ const checkProcesses = async () => {
 
 let watcher, watchingFile;
 
-
-const watchFileChanges = (path) => {
-    if (!fs.existsSync(path)) {
-        outputFile.textContent = 'Invalid path';
-        return;
-    } else {
-        const watcher = chokidar.watch(path, { persistent: true });
-        watcher
-            .on('add', path => outputFile.textContent += `\nFILE ADDED: ${path}`)
-            .on('change', path => outputFile.textContent += `\nFILE CHANGED: ${path}`)
-            .on('unlink', path => outputFile.textContent += `\nFILE DELETED: ${path}`);
-        
-        outputFile.textContent = `Watching for file changes in ${path}`;
+const watchFileChanges = async (dirPath) => {
+    if (watcher) {
+        watcher.close();
     }
+
+    // Initialize a new chokidar watcher
+    watcher = chokidar.watch(dirPath, { persistent: true, ignoreInitial:true });
+
+    // Add event listeners to the watcher
+    watcher.on('add', (path) => {
+        // Check if the file already exists in the directory only on the first run
+        outputFile.textContent += `File added: ${path}\n`;
+    });
+    watcher.on('change', (path) => {
+        outputFile.textContent += `File changed: ${path}\n`;
+    });
+    watcher.on('unlink', (path) => {
+        outputFile.textContent += `File removed: ${path}\n`;
+    });
+    watcher.on('error', (error) => {
+        console.error('Error watching file changes:', error);
+    });
+    
+    outputFile.textContent = `Watching for file changes in ${dirPath}\n`;
 };
 
 const checkNetworkActivity = () => {

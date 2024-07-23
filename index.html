@@ -9,17 +9,18 @@
 	<body>
 		<div class="container">
 			<header>
-				<h1>Virtual Machine Monitor</h1>
+				<center>
+					<h1>Machine Monitor</h1>
+				</center>
 			</header>
 			<nav>
-				
-						<button id="homeButton">Home</button>
-					
-						<button id="checkProcesses">Check Processes</button>
-					
-						<button id="watchFiles">Watch Files</button>
-					
-						<button id="checkNetwork">Check Network</button>
+				<button id="homeButton">Home</button>
+
+				<button id="checkProcesses">Check Processes</button>
+
+				<button id="watchFiles">Watch Files</button>
+
+				<button id="checkNetwork">Check Network</button>
 			</nav>
 			<main>
 				<div id="homeContent" class="content">
@@ -36,7 +37,7 @@
 						<div class="chartdiv">
 							<h3>Active Users</h3>
 							<canvas id="sessionChart"></canvas>
-						</div >
+						</div>
 						<div class="chartdiv">
 							<h3>CPU Speed</h3>
 							<canvas id="cpuSpeedChart"></canvas>
@@ -46,7 +47,7 @@
 							<canvas id="graphicsChart"></canvas>
 						</div>
 						<div class="chartdiv">
-							<h3>Network Speed </h3>
+							<h3>Network Speed</h3>
 							<canvas id="netSpeedChart"></canvas>
 						</div>
 						<div class="chartdiv">
@@ -67,9 +68,9 @@
 				<div id="fileContent" class="content hidden">
 					<h2>File Watcher</h2>
 					<div>
-                        <input type="text" id="fileInput" placeholder="Enter file path" />
-						<button id="watchFileButton">Watch File</button>
-                        <button id="stopwatchfileButton" disabled="true">Stop Watching File</button>
+						<input type="text" id="fileInput" placeholder="Enter file path" />
+						<button id="watchFileButton">Watch Directory</button>
+						<button id="stopwatchfileButton" disabled="true">Stop Watching</button>
 					</div>
 					<pre id="fileOutput"></pre>
 				</div>
