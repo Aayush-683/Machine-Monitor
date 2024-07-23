@@ -7,7 +7,7 @@
 		<link rel="stylesheet" href="./style.css" />
 	</head>
 	<body>
-		<div id="container">
+		<div class="container">
 			<header>
 				<h1>Virtual Machine Monitor</h1>
 			</header>
@@ -23,8 +23,8 @@
 			</nav>
 			<main>
 				<div id="homeContent" class="content">
+					<h2 id="sysStats">System Stats [Initializing]</h2>
 					<div id="statsContent">
-						<!-- <h2 id="sysStats">System Stats [Initializing]</h2> -->
 						<div class="chartdiv">
 							<h3>Temprature</h3>
 							<canvas id="tempChart"></canvas>
@@ -61,6 +61,7 @@
 				</div>
 				<div id="processContent" class="content hidden">
 					<h2 id="procStats">Fetching Processes...</h2>
+					<p>To kill a process click on the pid</p>
 					<table id="processOutput"></table>
 				</div>
 				<div id="fileContent" class="content hidden">
@@ -74,6 +75,7 @@
 				</div>
 				<div id="networkContent" class="content hidden">
 					<h2 id="netStats">Fetching Network Activity...</h2>
+					<p>To kill a process click on the pid</p>
 					<table id="networkOutput"></table>
 				</div>
 			</main>

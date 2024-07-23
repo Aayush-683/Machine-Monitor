@@ -5,6 +5,7 @@ const outputFile = document.getElementById('fileOutput');
 const outputNetworkTable = document.getElementById('networkOutput');
 const netHeading = document.getElementById('netStats');
 const fs = require('fs');
+const { exec } = require('child_process');
 
 const checkProcesses = async () => {
     const processes = await sysInfo.processes();
@@ -33,25 +34,34 @@ const checkProcesses = async () => {
     // Add the process list to the table as rows
     processList.forEach(process => {
         const row = document.createElement('tr');
-        Object.keys(process).forEach(key => {
+        Object.keys(process).forEach(async key => {
             const cell = document.createElement('td');
-            // Add a link to the path if it exists
+            let content = process[key];
+            cell.textContent = content;
             if (key === 'path' && process[key] !== 'N/A') {
-                const link = document.createElement('a');
                 let path, separator;
                 if (process[key].includes('/')) separator = '/';
                 else separator = '\\';
                 path = process[key].split(separator);
                 path = path.slice(0, path.length - 1); // Remove the file name
-                link.onclick = () => {
-                    // Open the file path in the default file explorer
-                    require('child_process').exec(`start ${path.join(separator)}`);
+                path = path.join(separator);
+                cell.onclick = () => {
+                    exec(`start ${path}`);
                 };
-                link.classList.add('proc_link')
-                link.textContent = process[key];
-                cell.appendChild(link);
-            } else {
-                cell.textContent = process[key];
+                cell.classList.add('clickable');
+            }
+            if (key === 'pid') {
+                cell.onclick = () => {
+                    exec(`taskkill /PID ${process[key]} /F`);
+                    alert(`Killed process with PID ${process[key]}`);
+                    // Remove the row from the table
+                    row.remove();
+                }
+                cell.classList.add('clickable-pid');
+            }
+            if (process[key].length < 1 || process[key] === 'N/A') {
+                cell.style.color = 'gray';
+                content = 'N/A';
             }
             row.appendChild(cell);
         });
@@ -108,7 +118,46 @@ const checkNetworkActivity = () => {
             const row = document.createElement('tr');
             Object.keys(conn).forEach(key => {
                 const cell = document.createElement('td');
-                cell.textContent = conn[key];
+                let content = conn[key];
+                // if (content == '0' || content === 'Address:' || content === 'Local:' || content === 'proto' || content === 'Foreign') return
+                if (key === 'local' || key === 'remote') {
+                    cell.onclick = () => {
+                        exec(`start http://${content}`);
+                    };
+                    cell.classList.add('clickable');
+                }
+                if (key === 'state') {
+                    if (content === 'LISTENING' || content === 'LISTEN') {
+                        cell.style.color = 'green';
+                    }
+                    if (content === 'ESTABLISHED') {
+                        cell.style.color = '#00f';
+                    }
+                    if (content === 'TIME_WAIT') {
+                        cell.style.color = 'red';
+                    }
+                    if (content === 'CLOSE_WAIT') {
+                        cell.style.color = 'orange';
+                    }
+                    if (content === 'SYN_SENT') {
+                        cell.style.color = 'purple';
+                    }
+                    if (content === 'SYN_RECEIVED') {
+                        cell.style.color = 'yellow';
+                    }
+                }
+                if (key === 'pid') {
+                    cell.onclick = () => {
+                        exec(`taskkill /PID ${conn[key]} /F`);
+                        alert(`Killed process with PID ${conn[key]}`);
+                    }
+                    cell.classList.add('clickable-pid');
+                }
+                if (content.length < 1) {
+                    cell.style.color = 'gray';
+                    content = 'N/A';
+                }
+                cell.textContent = content;
                 row.appendChild(cell);
             });
             outputNetworkTable.appendChild(row);

@@ -1,5 +1,5 @@
-const Chart = require('chart.js');
-const si = require('systeminformation');
+let Chart = require('chart.js');
+let si = require('systeminformation');
 
 // Initialize Charts
 const initializeChart = (ctx, label, borderColor, type) => new Chart(ctx, {
