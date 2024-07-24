@@ -3,6 +3,49 @@ let si = require('systeminformation');
 
 // Initialize Charts
 const initializeChart = (ctx, label, borderColor, type) => new Chart(ctx, {
+    default: {
+        color: '#eee'
+    },
+    options: {
+        responsive: true,
+        resizeDelay: 100,
+        elements: {
+            point: {
+                hoverRadius: 7,
+                hitRadius: 10,
+                pointStyle: 'crossRot',
+            },
+            line: {
+                fill: 'origin',
+                tension: 0.4,
+            }
+        },
+        legend: {
+            display: true,
+            position: 'bottom',
+            labels: {
+                color: '#eee',
+                usePointStyle: true,
+                pointStyle: 'crossRot'
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'Time'
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: label
+                }
+            }
+        }
+    },
     type: type,
     data: {
         labels: [],
@@ -10,8 +53,10 @@ const initializeChart = (ctx, label, borderColor, type) => new Chart(ctx, {
             label,
             data: [],
             borderColor,
-            borderWidth: 1
-        }]
+            borderWidth: 1,
+             // Lighter Border Color
+            backgroundColor: borderColor.replace('1)', '0.7)'),  
+        }],
     }
 });
 

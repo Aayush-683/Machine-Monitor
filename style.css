@@ -226,13 +226,14 @@ tr:hover td {
     padding: 10px;
     margin: 10px;
     transition: transform 0.3s ease, background-color 0.3s ease;
+    color: #eee;
     /* Smooth transition */
 }
 
 .chartdiv:hover {
     transform: scale(1.05);
     /* Slightly enlarge on hover */
-    background-color: #555;
+    background-color: #181818;
     /* Change background color on hover */
 }
 
