@@ -13,6 +13,7 @@
     "chart.js": "^3.9.1",
     "chokidar": "^3.6.0",
     "electron": "^24.8.8",
+    "node-wmi": "^0.0.5",
     "ps-list": "^7.1.0",
     "systeminformation": "^5.11.15"
   },

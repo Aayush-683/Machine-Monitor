@@ -5,6 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Virtual Machine Monitor</title>
 		<link rel="stylesheet" href="./style.css" />
+		<!-- Add CSP headers -->
+		<meta http-equiv="Content-Security-Policy" content="script-src 'self';">
 	</head>
 	<body>
 		<div class="container">
@@ -25,6 +27,10 @@
 			<main>
 				<div id="homeContent" class="content">
 					<h2 id="sysStats">System Stats [Initializing]</h2>
+					<p id="adminMsg" style="display: none;">
+						<em>Script is running in a non elevated environment!</em>
+						Some charts may not display accurate data.
+					</p>
 					<div id="statsContent">
 						<div class="chartdiv">
 							<h3>Temperature</h3>
@@ -47,16 +53,20 @@
 							<canvas id="graphicsChart"></canvas>
 						</div>
 						<div class="chartdiv">
-							<h3>Network Speed</h3>
-							<canvas id="netSpeedChart"></canvas>
+							<h3>Network Usage</h3>
+							<canvas id="netUsageChart"></canvas>
 						</div>
 						<div class="chartdiv">
-							<h3>Disk Usage</h3>
+							<h3>Disk I/O</h3>
 							<canvas id="diskIOChart"></canvas>
 						</div>
 						<div class="chartdiv">
 							<h3>Battery Power Usage</h3>
 							<canvas id="batteryPowerChart"></canvas>
+						</div>
+						<div class="chartdiv">
+							<h3>System Load</h3>
+							<canvas id="loadChart"></canvas>
 						</div>
 					</div>
 				</div>
