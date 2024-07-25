@@ -9,12 +9,10 @@ body {
     display: flex;
     height: 100vh;
     background: rgb(34, 34, 34);
-    /* Dark background */
     background: linear-gradient(90deg, rgba(34, 34, 34, 1) 0%, rgba(68, 68, 68, 1) 53%);
     overflow-y: scroll;
     overflow-x: hidden;
     color: #ddd;
-    /* Light grey text color */
 }
 
 body::-webkit-scrollbar {
@@ -31,7 +29,6 @@ body::-webkit-scrollbar-thumb {
 
 header h1 {
     color: #f1f1f1;
-    /* Slightly off-white */
 }
 
 nav {
@@ -41,14 +38,12 @@ nav {
     width: 100%;
     padding: 10px 0;
     background-color: #444;
-    /* Dark grey */
 }
 
 nav>button {
     border: none;
     background-color: rgba(0, 0, 0, 0);
     color: #ddd;
-    /* Light grey */
     letter-spacing: 0.15em;
     flex: 1;
     font-size: 1.2rem;
@@ -56,7 +51,6 @@ nav>button {
     transition: background-color 0.3s ease, border 0.3s ease;
     padding: 10px;
     position: relative;
-    /* Added for the :after positioning */
 }
 
 nav>button:after {
@@ -67,7 +61,6 @@ nav>button:after {
     left: 50%;
     position: absolute;
     background: #ddd;
-    /* Light grey */
     transition: 0.3s ease 0s, left 0.3s ease 0s;
     width: 0;
 }
@@ -86,7 +79,6 @@ nav>button:hover:after {
 
 .sidebar {
     background-color: #333;
-    /* Dark grey */
     color: #fff;
     padding: 20px;
     width: 200px;
@@ -213,28 +205,27 @@ tr:hover td {
     align-items: center;
     margin: 20px;
     width: 100%;
-    /* Ensure it doesn't overflow */
 }
 
 .chartdiv {
     width: 35rem;
     background-color: #222;
-    /* Dark background */
     border: 1px solid #444;
-    /* Slightly lighter border */
     border-radius: 10px;
     padding: 10px;
     margin: 10px;
     transition: transform 0.3s ease, background-color 0.3s ease;
     color: #eee;
-    /* Smooth transition */
+
+    h3 {
+        text-align: center;
+        padding: 10px;
+    }
 }
 
 .chartdiv:hover {
     transform: scale(1.05);
-    /* Slightly enlarge on hover */
     background-color: #181818;
-    /* Change background color on hover */
 }
 
 .chartdiv canvas {
@@ -243,7 +234,6 @@ tr:hover td {
     margin: 10px;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     nav {
         flex-direction: column;
@@ -264,53 +254,47 @@ tr:hover td {
     }
 }
 
-/* File content container */
 #fileContent {
     border-radius: 10px;
     padding: 20px;
     margin: 20px;
-    color: #ddd; /* Light grey text color */
+    color: #ddd;
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Space between elements */
+    gap: 20px;
 }
 
-/* Title styling */
 #fileContent h2 {
-    color: #f1f1f1; /* Slightly off-white for the heading */
+    color: #f1f1f1;
     margin: 0;
 }
 
-/* Container for input and buttons */
 #fileContent > div {
     display: flex;
-    gap: 10px; /* Space between input and buttons */
+    gap: 10px;
 }
 
-/* Input styling */
 #fileInput {
-    flex: 1; /* Allow the input to take up available space */
+    flex: 1;
     padding: 10px;
     border: 1px solid #555;
     border-radius: 5px;
     background-color: #222;
-    color: #ddd; /* Light grey text color */
+    color: #ddd;
     font-size: 1rem;
     transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 #fileInput::placeholder {
-    color: #888; /* Placeholder text color */
+    color: #888;
 }
 
-/* Input focus styling */
 #fileInput:focus {
-    border-color: #ddd; /* Highlight border on focus */
-    background-color: #444; /* Slightly lighter background on focus */
-    outline: none; /* Remove default outline */
+    border-color: #ddd;
+    background-color: #444;
+    outline: none;
 }
 
-/* Button styling */
 button {
     padding: 10px 15px;
     border: none;
@@ -322,25 +306,22 @@ button {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Button hover styling */
 button:hover {
-    background-color: #666; /* Slightly lighter background on hover */
+    background-color: #666;
 }
 
-/* Disabled button styling */
 button:disabled {
     background-color: #444;
-    color: #666; /* Lighter color for disabled state */
+    color: #666;
     cursor: not-allowed;
 }
 
-/* File output styling */
 #fileOutput {
-    background-color: #111; /* Dark background for output */
-    color: #ccc; /* Light grey text color */
+    background-color: #111;
+    color: #ccc;
     padding: 10px;
     border-radius: 5px;
-    overflow-x: auto; /* Horizontal scrollbar for long lines */
-    white-space: pre-wrap; /* Preserve whitespace */
-    word-wrap: break-word; /* Break long words */
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
