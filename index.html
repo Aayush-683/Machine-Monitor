@@ -1,97 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Virtual Machine Monitor</title>
-		<link rel="stylesheet" href="./style.css" />
-		<!-- Add CSP headers -->
-		<meta http-equiv="Content-Security-Policy" content="script-src 'self';">
-	</head>
-	<body>
-		<div class="container">
-			<header>
-				<center>
-					<h1>Machine Monitor</h1>
-				</center>
-			</header>
-			<nav>
-				<button id="homeButton">Home</button>
 
-				<button id="checkProcesses">Check Processes</button>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Virtual Machine Monitor</title>
+	<link rel="stylesheet" href="./style.css" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+		rel="stylesheet">
+	<!-- Add CSP headers -->
+	<meta http-equiv="Content-Security-Policy" content="script-src 'self';">
+</head>
 
-				<button id="watchFiles">Watch Files</button>
-
-				<button id="checkNetwork">Check Network</button>
-			</nav>
-			<main>
-				<div id="homeContent" class="content">
-					<h2 id="sysStats">System Stats [Initializing]</h2>
-					<p id="adminMsg" style="display: none;">
-						<em>Script is running in a non elevated environment!</em>
-						Some charts may not display accurate data.
-					</p>
-					<div id="statsContent">
-						<div class="chartdiv">
-							<h3>Temperature</h3>
-							<canvas id="tempChart"></canvas>
-						</div>
-						<div class="chartdiv">
-							<h3>RAM Usage</h3>
-							<canvas id="ramChart"></canvas>
-						</div>
-						<div class="chartdiv">
-							<h3>Active Users</h3>
-							<canvas id="sessionChart"></canvas>
-						</div>
-						<div class="chartdiv">
-							<h3>CPU Speed</h3>
-							<canvas id="cpuSpeedChart"></canvas>
-						</div>
-						<div class="chartdiv">
-							<h3>Graphics Usage</h3>
-							<canvas id="graphicsChart"></canvas>
-						</div>
-						<div class="chartdiv">
-							<h3>Network Usage</h3>
-							<canvas id="netUsageChart"></canvas>
-						</div>
-						<div class="chartdiv">
-							<h3>Disk I/O</h3>
-							<canvas id="diskIOChart"></canvas>
-						</div>
-						<div class="chartdiv">
-							<h3>Battery Power Usage</h3>
-							<canvas id="batteryPowerChart"></canvas>
-						</div>
-						<div class="chartdiv">
-							<h3>System Load</h3>
-							<canvas id="loadChart"></canvas>
-						</div>
+<body>
+	<div class="container">
+		<header>
+			<h1>Machine Monitor</h1>
+		</header>
+		<nav>
+			<ul>
+				<li><a id="homeButton">Home</a></li>
+	
+				<li><a id="checkProcesses">Check Processes</a></li>
+	
+				<li><a id="watchFiles">Watch Files</a></li>
+	
+				<li><a id="checkNetwork">Check Network</a></li>
+			</ul>
+		</nav>
+		<main>
+			<div id="homeContent" class="content">
+				<h3 id="sysStats">System Stats [Initializing]</h3>
+				<p id="adminMsg" style="display: none;">
+					*Script is running in a non elevated environment.
+					Some charts may not display accurate data.*
+				</p>
+				<div id="statsContent">
+					<div class="chartdiv">
+						<h3>Temperature</h3>
+						<canvas id="tempChart"></canvas>
+					</div>
+					<div class="chartdiv">
+						<h3>RAM Usage</h3>
+						<canvas id="ramChart"></canvas>
+					</div>
+					<div class="chartdiv">
+						<h3>Active Users</h3>
+						<canvas id="sessionChart"></canvas>
+					</div>
+					<div class="chartdiv">
+						<h3>CPU Speed</h3>
+						<canvas id="cpuSpeedChart"></canvas>
+					</div>
+					<div class="chartdiv">
+						<h3>Graphics Usage</h3>
+						<canvas id="graphicsChart"></canvas>
+					</div>
+					<div class="chartdiv">
+						<h3>Network Usage</h3>
+						<canvas id="netUsageChart"></canvas>
+					</div>
+					<div class="chartdiv">
+						<h3>Disk I/O</h3>
+						<canvas id="diskIOChart"></canvas>
+					</div>
+					<div class="chartdiv">
+						<h3>Battery Power Usage</h3>
+						<canvas id="batteryPowerChart"></canvas>
+					</div>
+					<div class="chartdiv">
+						<h3>System Load</h3>
+						<canvas id="loadChart"></canvas>
 					</div>
 				</div>
-				<div id="processContent" class="content hidden">
-					<h2 id="procStats">Fetching Processes...</h2>
-					<p>To kill a process click on the pid</p>
-					<table id="processOutput"></table>
+			</div>
+			<div id="processContent" class="content hidden">
+				<h3 id="procStats">Fetching Processes...</h3>
+				<p>To kill a process click on the pid</p>
+				<table id="processOutput"></table>
+			</div>
+			<div id="fileContent" class="content hidden">
+				<h3>File Watcher</h3>
+				<div>
+					<input type="text" id="fileInput" placeholder="Enter file path" />
+					<button id="watchFileButton">Watch Directory</button>
+					<button id="stopwatchfileButton" disabled="true">Stop Watching</button>
 				</div>
-				<div id="fileContent" class="content hidden">
-					<h2>File Watcher</h2>
-					<div>
-						<input type="text" id="fileInput" placeholder="Enter file path" />
-						<button id="watchFileButton">Watch Directory</button>
-						<button id="stopwatchfileButton" disabled="true">Stop Watching</button>
-					</div>
-					<pre id="fileOutput"></pre>
-				</div>
-				<div id="networkContent" class="content hidden">
-					<h2 id="netStats">Fetching Network Activity...</h2>
-					<p>To kill a process click on the pid</p>
-					<table id="networkOutput"></table>
-				</div>
-			</main>
-		</div>
-		<script src="charts.js"></script>
-		<script src="script.js"></script>
-	</body>
+				<pre id="fileOutput"></pre>
+			</div>
+			<div id="networkContent" class="content hidden">
+				<h3 id="netStats">Fetching Network Activity...</h3>
+				<p>To kill a process click on the pid</p>
+				<table id="networkOutput"></table>
+			</div>
+		</main>
+	</div>
+	<script src="charts.js"></script>
+	<script src="script.js"></script>
+</body>
+
 </html>
