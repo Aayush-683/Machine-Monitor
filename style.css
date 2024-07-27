@@ -124,10 +124,10 @@ a:hover:after {
 
 #statsContent {
     padding: 20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr ;
-    grid-template-rows:auto;
-    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 #charts {
@@ -166,15 +166,11 @@ a:hover:after {
     margin: 10px;
 }
 
-@media (max-width: 768px) {
-    /* nav {
-        flex-direction: column;
-    } */
+@media (max-width: 1024px) {
 
-    nav button {
-        margin: 5px 0;
+    #statsContent{
+        gap: 10px;       
     }
-
     th,
     td {
         font-size: 0.9em;
